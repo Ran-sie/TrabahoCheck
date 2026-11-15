@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "TrabahoCheck",
+  "version": "1.0.0",
+  "description": "Check the job post you are viewing for scam red flags.",
+  "permissions": ["activeTab", "scripting"],
+  "action": {
+    "default_title": "Check this job with TrabahoCheck",
+    "default_popup": "popup.html"
+  }
+}

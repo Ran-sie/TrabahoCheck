@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TrabahoCheck: check a job</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Inter',system-ui,sans-serif}
+a{color:#1F4FA8}a:hover{color:#163B80}
+</style>
+</helmet>
+<div style="background:#F7F6F2;color:#17181A;font-family:'Inter',system-ui,sans-serif;min-height:1000px;box-sizing:border-box;padding:0 24px 64px">
+  <div style="max-width:760px;margin:0 auto">
+
+    <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:28px 0">
+      <div style="font-size:20px;font-weight:700;letter-spacing:-0.01em">TrabahoCheck</div>
+      <div style="font-size:14px;color:#5B5F66">Free job scam checker</div>
+    </div>
+
+    <div style="padding:40px 0 32px;display:flex;flex-direction:column;gap:12px">
+      <h1 style="margin:0;font-size:40px;line-height:1.15;letter-spacing:-0.02em;font-weight:700">Is this job real or a scam?</h1>
+      <p style="margin:0;font-size:18px;line-height:1.5;color:#44484F">Paste a job link from Indeed, Upwork, or any site. We check it for red flags and tell you why.</p>
+    </div>
+
+    <div style="background:#FFFFFF;border:1px solid #DAD8D0;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:16px">
+      <label for="joblink" style="font-size:14px;font-weight:600">Job link</label>
+      <div style="display:flex;flex-wrap:wrap;gap:12px">
+        <input id="joblink" type="url" placeholder="https://www.indeed.com/viewjob?jk=..." style="flex:1 1 320px;min-width:0;height:48px;box-sizing:border-box;padding:0 16px;font-size:16px;font-family:inherit;border:1px solid #9A9A94;border-radius:10px;background:#FFFFFF;color:#17181A">
+        <button onClick="{{check}}" style="height:48px;padding:0 28px;font-size:16px;font-weight:600;font-family:inherit;border:0;border-radius:10px;background:#1F4FA8;color:#FFFFFF;cursor:pointer">Check job</button>
+      </div>
+      <div>
+        <button onClick="{{togglePaste}}" style="min-height:44px;padding:0;font-size:14px;font-family:inherit;border:0;background:none;color:#1F4FA8;text-decoration:underline;cursor:pointer">Link not working? Paste the job text instead</button>
+      </div>
+      <sc-if value="{{showPaste}}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <label for="jobtext" style="font-size:14px;font-weight:600">Job text</label>
+          <textarea id="jobtext" rows="6" placeholder="Copy the whole job post and paste it here" style="box-sizing:border-box;width:100%;padding:12px 16px;font-size:16px;font-family:inherit;border:1px solid #9A9A94;border-radius:10px;background:#FFFFFF;color:#17181A;resize:vertical"></textarea>
+        </div>
+      </sc-if>
+    </div>
+
+    <sc-if value="{{checked}}" hint-placeholder-val="{{ true }}">
+      <div style="margin-top:24px;background:#FFFFFF;border:1px solid #DAD8D0;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:20px">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px">
+          <div style="font-size:14px;font-weight:600;color:#5B5F66">Result</div>
+          <div style="font-size:12px;color:#5B5F66;border:1px solid #DAD8D0;border-radius:999px;padding:2px 10px">Sample result</div>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:16px">
+          <div style="font-size:56px;font-weight:700;line-height:1;letter-spacing:-0.02em;color:#A8231A">82%</div>
+          <div style="font-size:20px;font-weight:600;color:#A8231A">High risk: likely a scam</div>
+        </div>
+
+        <div style="height:12px;border-radius:999px;background:#ECEAE3;overflow:hidden">
+          <div style="width:82%;height:100%;background:#A8231A;border-radius:999px"></div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="font-size:16px;font-weight:600">Why we think so</div>
+          <sc-for list="{{flags}}" as="flag" hint-placeholder-count="3">
+            <div style="display:flex;gap:12px;align-items:flex-start;padding:12px 16px;background:#FBF1F0;border-radius:10px">
+              <div style="flex:none;width:8px;height:8px;margin-top:8px;border-radius:999px;background:#A8231A"></div>
+              <div style="display:flex;flex-direction:column;gap:2px">
+                <div style="font-size:16px;font-weight:600">{{flag.title}}</div>
+                <div style="font-size:14px;line-height:1.5;color:#44484F">{{flag.detail}}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="font-size:14px;line-height:1.5;color:#5B5F66">This is an estimate, not a guarantee. Never pay money to get a job, and verify the company yourself.</div>
+
+        <div>
+          <button onClick="{{reset}}" style="height:44px;padding:0 20px;font-size:14px;font-weight:600;font-family:inherit;border:1px solid #9A9A94;border-radius:10px;background:#FFFFFF;color:#17181A;cursor:pointer">Check another job</button>
+        </div>
+      </div>
+    </sc-if>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { checked: false, showPaste: false };
+  }
+  renderVals() {
+    return {
+      checked: this.state.checked,
+      showPaste: this.state.showPaste,
+      check: () => this.setState({ checked: true }),
+      reset: () => this.setState({ checked: false }),
+      togglePaste: () => this.setState({ showPaste: !this.state.showPaste }),
+      flags: [
+        { title: 'Asks for a fee before hiring', detail: 'Real employers do not charge applicants for training, uniforms, or equipment.' },
+        { title: 'Contact only through Telegram', detail: 'The post gives no company email, only a chat handle.' },
+        { title: 'Pay is far above normal for the work', detail: 'A very high salary for simple tasks is a common bait.' },
+        { title: 'Company details are vague', detail: 'No clear company name, address, or website.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

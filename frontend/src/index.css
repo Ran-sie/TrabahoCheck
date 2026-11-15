@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Colour tokens: the light values come from the design, the dark values are tuned to keep the same contrast. */
+:root {
+  --page: #f7f6f2;
+  --card: #ffffff;
+  --line: #dad8d0;
+  --line-strong: #8a8a84;
+  --ink: #17181a;
+  --soft: #44484f;
+  --muted: #5b5f66;
+  --track: #ecebe3;
+  --brand: #1f4fa8;
+  --brand-hover: #163b80;
+  --link: #1f4fa8;
+  --danger: #a8231a;
+  --danger-tint: #fbf1f0;
+  --warn: #8a5300;
+  --warn-tint: #fdf5e6;
+  --ok: #1e6b3a;
+  --ok-tint: #edf6f0;
+}
+
+.dark {
+  color-scheme: dark;
+  --page: #121315;
+  --card: #1b1c1f;
+  --line: #35373c;
+  --line-strong: #6e7178;
+  --ink: #f2f1ed;
+  --soft: #c9cbd0;
+  --muted: #a3a7ae;
+  --track: #2a2c30;
+  --brand: #3f6fd6;
+  --brand-hover: #5483e6;
+  --link: #8db2ff;
+  --danger: #ff8a80;
+  --danger-tint: #3a1f1d;
+  --warn: #f2b35e;
+  --warn-tint: #3a2d15;
+  --ok: #6fd197;
+  --ok-tint: #15301f;
+}
+
+@theme inline {
+  --color-page: var(--page);
+  --color-card: var(--card);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-soft: var(--soft);
+  --color-muted: var(--muted);
+  --color-track: var(--track);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-link: var(--link);
+  --color-danger: var(--danger);
+  --color-danger-tint: var(--danger-tint);
+  --color-warn: var(--warn);
+  --color-warn-tint: var(--warn-tint);
+  --color-ok: var(--ok);
+  --color-ok-tint: var(--ok-tint);
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  background: var(--page);
+  color: var(--ink);
+}

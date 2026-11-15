@@ -1,0 +1,8 @@
+.env
+node_modules/
+vendor/
+.DS_Store
+.claude/
+CLAUDE.md
+AGENTS.md
+.impeccable/
