@@ -13,6 +13,10 @@
 
 > *Trabaho* is Filipino for "work".
 
+**Live demo:** https://trabaho-check.vercel.app
+
+> The backend runs on a free server, so the very first request after a long idle period can take a few seconds.
+
 ## Features
 
 - **Rule-based scam analysis**: detects upfront fees, fake cheques, task/commission scams, chat-only recruiters, unrealistic pay, free-email recruiters, and more. Supports English and Taglish phrasing.
