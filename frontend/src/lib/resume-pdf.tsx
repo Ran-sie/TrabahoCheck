@@ -31,8 +31,8 @@ export async function downloadResumePdf(data: ProfileFields, template: Template,
     side: { width: '34%', padding: 22, color: '#ffffff', gap: 14 },
     main: { width: '66%', padding: 26, gap: 14 },
     sideTitle: { fontFamily: bold, fontSize: 8, letterSpacing: 1.2, color: '#c7d6f0', marginBottom: 4 },
-    name: { fontFamily: bold, fontSize: modern ? 24 : compact ? 20 : 24, color: modern ? BLUE : INK },
-    headline: { fontSize: base + 2, color: MUTED, marginTop: 2 },
+    name: { fontFamily: bold, fontSize: modern ? 24 : compact ? 20 : 24, lineHeight: 1.2, color: modern ? BLUE : INK },
+    headline: { fontSize: base + 2, lineHeight: 1.3, color: MUTED, marginTop: 4 },
     center: { alignItems: 'center', textAlign: 'center', gap: 2, marginBottom: 10 },
     left: { gap: 2, marginBottom: 6 },
     contactLine: { fontSize: base - 0.5, color: MUTED, marginTop: 2 },
@@ -45,9 +45,10 @@ export async function downloadResumePdf(data: ProfileFields, template: Template,
       borderBottomColor: modern ? BLUE : INK,
       paddingBottom: 2,
     },
-    row: { flexDirection: 'row', justifyContent: 'space-between', gap: 8 },
+    row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
+    rowTitle: { flex: 1, fontFamily: bold, paddingRight: 8 },
     bold: { fontFamily: bold },
-    date: { fontSize: base - 1, color: MUTED },
+    date: { fontSize: base - 1, color: MUTED, flexShrink: 0 },
     desc: { color: '#404040', marginTop: 1 },
     gap: { gap: compact ? 5 : 8 },
   })
@@ -55,7 +56,7 @@ export async function downloadResumePdf(data: ProfileFields, template: Template,
   const dated = (title: string, from: string | null, to: string | null, body?: string | null) => (
     <View wrap={false} key={`${title}-${from}-${to}`}>
       <View style={st.row}>
-        <Text style={[st.bold, { flexShrink: 1 }]}>{title}</Text>
+        <Text style={st.rowTitle}>{title}</Text>
         <Text style={st.date}>{range(from, to, s.present)}</Text>
       </View>
       {filled(body) && <Text style={st.desc}>{body}</Text>}
