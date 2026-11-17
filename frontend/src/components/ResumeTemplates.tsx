@@ -44,7 +44,7 @@ export default function ResumeTemplates({ data }: { data: ProfileFields }) {
           </div>
 
           <div className="overflow-x-auto rounded-[10px] border border-line bg-page p-3">
-            <div className="mx-auto w-190 max-w-none">
+            <div className="min-w-140">
               <ResumeSheet data={data} template={template} t={t} />
             </div>
           </div>
