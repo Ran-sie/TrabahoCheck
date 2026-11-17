@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Support\ProfileText;
 
 /**
  * Compares a user's saved profile with a job post and says how well they fit,
@@ -17,8 +18,6 @@ class JobFitReviewer
 {
     private const MAX_POST_CHARS = 6000;
 
-    private const MAX_PROFILE_CHARS = 5000;
-
     public function __construct(private readonly AiReviewer $ai) {}
 
     public function available(): bool
@@ -29,8 +28,7 @@ class JobFitReviewer
     /** True when the profile has enough in it to compare with a job. */
     public function hasProfile(User $user): bool
     {
-        return filled($user->headline) || filled($user->summary)
-            || ! empty($user->skills) || ! empty($user->experience);
+        return ProfileText::hasContent($user);
     }
 
     /**
@@ -38,7 +36,7 @@ class JobFitReviewer
      */
     public function fit(string $jobText, User $user): ?array
     {
-        $content = $this->ai->complete($this->messages($jobText, $this->profileText($user)), 800);
+        $content = $this->ai->complete($this->messages($jobText, ProfileText::for($user)), 800);
 
         return $content === null ? null : $this->parse($content);
     }
@@ -85,40 +83,6 @@ class JobFitReviewer
             'missing' => $this->words($data['missing'] ?? null),
             'tips' => $tips,
         ];
-    }
-
-    /** The profile as plain text for the model. */
-    private function profileText(User $user): string
-    {
-        $lines = [];
-
-        foreach (['headline' => 'Headline', 'summary' => 'Summary'] as $field => $label) {
-            if (filled($user->{$field})) {
-                $lines[] = "{$label}: {$user->{$field}}";
-            }
-        }
-
-        if (! empty($user->skills)) {
-            $lines[] = 'Skills: '.implode(', ', (array) $user->skills);
-        }
-
-        foreach ((array) $user->experience as $job) {
-            $when = trim(($job['start'] ?? '').' - '.($job['end'] ?? ''), ' -');
-            $lines[] = trim('Experience: '.($job['title'] ?? '').' at '.($job['company'] ?? '').($when !== '' ? " ({$when})" : '')
-                .(filled($job['description'] ?? null) ? ': '.$job['description'] : ''));
-        }
-
-        foreach ((array) $user->education as $school) {
-            $lines[] = trim('Education: '.($school['degree'] ?? '').' at '.($school['school'] ?? ''));
-        }
-
-        foreach (['certifications' => 'Certifications', 'languages' => 'Languages'] as $field => $label) {
-            if (! empty($user->{$field})) {
-                $lines[] = "{$label}: ".implode(', ', (array) $user->{$field});
-            }
-        }
-
-        return mb_substr(implode("\n", $lines), 0, self::MAX_PROFILE_CHARS);
     }
 
     /** @return list<array{role: string, content: string}> */

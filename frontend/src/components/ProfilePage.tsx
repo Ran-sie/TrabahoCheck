@@ -6,6 +6,8 @@ import type { ProfileFields, User } from '../lib/types'
 import ChipInput from './ChipInput'
 import { EducationList, ExperienceList } from './ProfileLists'
 import ResumeCard from './ResumeCard'
+import ResumeReviewCard from './ResumeReviewCard'
+import ResumeTemplates from './ResumeTemplates'
 
 const FOCUS = 'focus:outline-2 focus:outline-offset-2 focus:outline-brand'
 const INPUT = `h-12 w-full rounded-[10px] border border-line-strong bg-card px-4 text-base text-ink placeholder:text-muted ${FOCUS}`
@@ -269,6 +271,9 @@ export default function ProfilePage({ onSessionEnded }: { onSessionEnded: () => 
           </button>
         </div>
       </form>
+
+      <ResumeReviewCard onUse={(field, text) => set(field, text)} />
+      <ResumeTemplates data={draft} />
     </div>
   )
 }

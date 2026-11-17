@@ -92,3 +92,17 @@ export interface JobFit {
   missing: string[]
   tips: Bilingual[]
 }
+
+export type ResumeLevel = 'strong' | 'okay' | 'weak'
+
+/** AI feedback on the saved profile, treated as the user's resume. */
+export interface ResumeReview {
+  score: number
+  level: ResumeLevel
+  summary: Bilingual
+  strengths: Bilingual[]
+  improvements: Bilingual[]
+  /** A better headline and summary the user can copy into their profile. */
+  headline: string | null
+  about: string | null
+}

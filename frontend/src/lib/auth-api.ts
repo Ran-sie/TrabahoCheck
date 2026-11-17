@@ -1,5 +1,5 @@
 import type { Strings } from './strings'
-import type { JobFit, ProfileFields, User } from './types'
+import type { JobFit, ProfileFields, ResumeReview, User } from './types'
 
 const TOKEN_KEY = 'token'
 
@@ -197,5 +197,28 @@ export async function fetchJobFit(id: string): Promise<JobFitResult> {
   if (res.status === 401) return { ok: false, code: 'login' }
   const data = await res.json().catch(() => null)
   if (data?.code === 'expired' || data?.code === 'empty_profile') return { ok: false, code: data.code }
+  return { ok: false, code: 'unavailable' }
+}
+
+export type ResumeReviewResult =
+  | { ok: true; review: ResumeReview }
+  | { ok: false; code: 'empty_profile' | 'unavailable' | 'network' | 'login' }
+
+/** Asks the AI to review the saved profile as a resume. */
+export async function fetchResumeReview(): Promise<ResumeReviewResult> {
+  let res: Response
+  try {
+    res = await fetch('/api/me/resume/review', {
+      method: 'POST',
+      headers: { Accept: 'application/json', Authorization: `Bearer ${getToken() ?? ''}` },
+    })
+  } catch {
+    return { ok: false, code: 'network' }
+  }
+
+  if (res.ok) return { ok: true, review: (await res.json()) as ResumeReview }
+  if (res.status === 401) return { ok: false, code: 'login' }
+  const data = await res.json().catch(() => null)
+  if (data?.code === 'empty_profile') return { ok: false, code: 'empty_profile' }
   return { ok: false, code: 'unavailable' }
 }
