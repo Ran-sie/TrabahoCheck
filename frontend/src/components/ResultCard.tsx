@@ -3,6 +3,8 @@ import { useLang } from '../lib/lang-context'
 import type { CheckResult, RiskLevel, Severity } from '../lib/types'
 import { useAiReview } from '../lib/use-ai-review'
 import AiOpinion from './AiOpinion'
+import type { View } from './Header'
+import JobFitCard from './JobFitCard'
 import NextSteps from './NextSteps'
 
 const COLORS: Record<RiskLevel, { color: string; tint: string }> = {
@@ -20,9 +22,10 @@ const SEVERITY_COLOR: Record<Severity, string> = {
 interface Props {
   result: CheckResult
   onReset: () => void
+  onNavigate: (view: View) => void
 }
 
-export default function ResultCard({ result, onReset }: Props) {
+export default function ResultCard({ result, onReset, onNavigate }: Props) {
   const { lang, t } = useLang()
   const [copied, setCopied] = useState(false)
   const [warned, setWarned] = useState(false)
@@ -107,6 +110,10 @@ export default function ResultCard({ result, onReset }: Props) {
       )}
 
       {ai.review && <AiOpinion review={ai.review} />}
+
+      {result.review_id && ai.review && level !== 'high' && (
+        <JobFitCard reviewId={result.review_id} onNavigate={onNavigate} />
+      )}
 
       {result.flags.length === 0 && <p className="text-base text-soft">{t.noFlags}</p>}
 

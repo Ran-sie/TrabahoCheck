@@ -80,3 +80,15 @@ export interface AiReview {
   summary: Bilingual
   reasons: Bilingual[]
 }
+
+export type FitLevel = 'strong' | 'partial' | 'weak'
+
+/** How well the logged-in user's profile fits the job they just checked. */
+export interface JobFit {
+  score: number
+  level: FitLevel
+  summary: Bilingual
+  matched: string[]
+  missing: string[]
+  tips: Bilingual[]
+}

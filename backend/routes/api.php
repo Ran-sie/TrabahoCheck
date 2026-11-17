@@ -3,6 +3,7 @@
 use App\Http\Controllers\AiReviewController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CheckController;
+use App\Http\Controllers\JobFitController;
 use App\Http\Controllers\ResumeController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,5 +19,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me/resume', [ResumeController::class, 'show']);
     Route::post('/me/resume/autofill', [ResumeController::class, 'autofill'])->middleware('throttle:6,1');
     Route::delete('/me/resume', [ResumeController::class, 'destroy']);
+    Route::post('/job-fit', JobFitController::class)->middleware('throttle:6,1');
 });
 Route::post('/ai-review', AiReviewController::class)->middleware('throttle:10,1');

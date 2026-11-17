@@ -1,5 +1,5 @@
 import type { Strings } from './strings'
-import type { ProfileFields, User } from './types'
+import type { JobFit, ProfileFields, User } from './types'
 
 const TOKEN_KEY = 'token'
 
@@ -172,4 +172,30 @@ export const authApi = {
   logout: () => call<{ ok: boolean }>('POST', '/logout'),
   me: (token: string) => call<{ user: User }>('GET', '/me', undefined, token),
   update: (input: ProfileFields) => call<{ user: User }>('PUT', '/me', input),
+}
+
+export type JobFitResult = { ok: true; fit: JobFit } | { ok: false; code: 'expired' | 'empty_profile' | 'unavailable' | 'network' | 'login' }
+
+/** Asks how well the logged-in user's profile fits the job from a finished check. */
+export async function fetchJobFit(id: string): Promise<JobFitResult> {
+  let res: Response
+  try {
+    res = await fetch('/api/job-fit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${getToken() ?? ''}`,
+      },
+      body: JSON.stringify({ id }),
+    })
+  } catch {
+    return { ok: false, code: 'network' }
+  }
+
+  if (res.ok) return { ok: true, fit: (await res.json()) as JobFit }
+  if (res.status === 401) return { ok: false, code: 'login' }
+  const data = await res.json().catch(() => null)
+  if (data?.code === 'expired' || data?.code === 'empty_profile') return { ok: false, code: data.code }
+  return { ok: false, code: 'unavailable' }
 }

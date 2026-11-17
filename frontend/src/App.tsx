@@ -131,7 +131,7 @@ export default function App() {
               )}
 
               <div ref={resultRef} className="scroll-mt-24">
-                {result && <ResultCard result={result} onReset={handleReset} />}
+                {result && <ResultCard result={result} onReset={handleReset} onNavigate={navigate} />}
               </div>
 
               {!result && <Info onNavigate={navigate} />}

@@ -33,19 +33,36 @@ class AiReviewer
             return null;
         }
 
+        $content = $this->complete($this->messages($text, $ruleScore, $ruleFlagTitles));
+
+        return $content === null ? null : $this->parse($content);
+    }
+
+    /**
+     * Sends one chat request and returns the model's text, or null if the AI is
+     * off or did not answer. Shared by every feature that asks the AI for JSON.
+     *
+     * @param  list<array{role: string, content: string}>  $messages
+     */
+    public function complete(array $messages, int $maxTokens = 700): ?string
+    {
+        if (! $this->available()) {
+            return null;
+        }
+
         try {
-            $response = $this->send($this->messages($text, $ruleScore, $ruleFlagTitles), true);
+            $response = $this->send($messages, true, $maxTokens);
 
             // Some providers reject response_format; try once more without it.
             if ($response->status() === 400) {
-                $response = $this->send($this->messages($text, $ruleScore, $ruleFlagTitles), false);
+                $response = $this->send($messages, false, $maxTokens);
             }
 
             if (! $response->successful()) {
                 return null;
             }
 
-            return $this->parse((string) $response->json('choices.0.message.content'));
+            return (string) $response->json('choices.0.message.content');
         } catch (\Throwable) {
             return null;
         }
@@ -110,13 +127,13 @@ class AiReviewer
         ];
     }
 
-    private function send(array $messages, bool $jsonMode): Response
+    private function send(array $messages, bool $jsonMode, int $maxTokens): Response
     {
         $payload = [
             'model' => config('services.ai.model'),
             'messages' => $messages,
             'temperature' => 0.2,
-            'max_tokens' => 700,
+            'max_tokens' => $maxTokens,
         ];
         if ($jsonMode) {
             $payload['response_format'] = ['type' => 'json_object'];

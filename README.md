@@ -23,6 +23,7 @@
 - **Rule-based scam analysis**: detects upfront fees, fake cheques, task/commission scams, chat-only recruiters, unrealistic pay, free-email recruiters, and more. Supports English and Taglish phrasing.
 - **Company check**: looks up the domains and emails named in the post (existence and age) without ever opening the site.
 - **Optional AI second opinion**: any OpenAI-compatible provider (Groq, OpenRouter) or fully local via Ollama, shown next to the rule result.
+- **Job fit**: logged-in users can compare their saved profile with a checked job post and get a match score, what they already have, what is missing and tips to improve.
 - **Screenshot input**: in-browser OCR (Tesseract.js), so images never leave your machine.
 - **Accounts and resume tools**: sign up, keep a profile, upload a resume (PDF) and auto-fill your profile from it.
 - **Browser extension**: reads the job post from your own browser, so sites like Indeed, Upwork and LinkedIn are not blocked.
@@ -100,6 +101,7 @@ Restart the backend after changing `.env`.
 | GET/PUT | `/api/me` | Profile |
 | POST/GET/DELETE | `/api/me/resume` | Resume upload, view, delete |
 | POST | `/api/me/resume/autofill` | Fill profile from resume |
+| POST | `/api/job-fit` | Match the profile against a checked job (login required) |
 
 All public endpoints are rate limited.
 

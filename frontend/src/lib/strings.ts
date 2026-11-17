@@ -233,6 +233,20 @@ const en = {
   errAuthWeak: 'Use a password with at least 8 characters.',
   errAuthEmail: 'Please enter a valid email.',
   errAuthGeneric: 'Something went wrong. Please try again.',
+  fitTitle: 'How well do you fit this job?',
+  fitText: 'We compare your saved profile with this post.',
+  fitButton: 'Check my fit',
+  fitLoading: 'Comparing your profile with the job…',
+  fitLevel: { strong: 'Strong match', partial: 'Partial match', weak: 'Weak match' },
+  fitMatched: 'What you already have',
+  fitMissing: 'What is missing',
+  fitTips: 'How to improve your chances',
+  fitLoginHint: 'Log in and fill in your profile to see how well you fit this job.',
+  fitEmptyProfile: 'Your profile is empty. Add your skills and experience first, then check again.',
+  fitProfileCta: 'Go to my profile',
+  fitExpired: 'This check expired. Check the job again to see your fit.',
+  fitUnavailable: 'The job fit is not available right now. Please try again later.',
+  fitNote: 'A free AI model wrote this from your saved profile. Treat it as a guide, not a promise.',
 }
 
 export type Strings = typeof en
@@ -465,6 +479,20 @@ const tl: Strings = {
   errAuthWeak: 'Gumamit ng password na may hindi bababa sa 8 character.',
   errAuthEmail: 'Maglagay ng tamang email.',
   errAuthGeneric: 'May nangyaring mali. Pakisubukan muli.',
+  fitTitle: 'Bagay ka ba sa trabahong ito?',
+  fitText: 'Ikukumpara namin ang naka-save mong profile sa post na ito.',
+  fitButton: 'Tingnan kung bagay ako',
+  fitLoading: 'Kinukumpara ang profile mo sa trabaho…',
+  fitLevel: { strong: 'Malakas na tugma', partial: 'May tugma', weak: 'Mahinang tugma' },
+  fitMatched: 'Ang meron ka na',
+  fitMissing: 'Ang kulang',
+  fitTips: 'Paano madagdagan ang tsansa mo',
+  fitLoginHint: 'Mag-log in at kumpletuhin ang profile mo para makita kung bagay ka sa trabahong ito.',
+  fitEmptyProfile: 'Walang laman ang profile mo. Idagdag muna ang skills at karanasan mo, tapos subukan ulit.',
+  fitProfileCta: 'Pumunta sa profile ko',
+  fitExpired: 'Nag-expire na ang check na ito. I-check ulit ang trabaho para makita kung bagay ka.',
+  fitUnavailable: 'Hindi available ang job fit ngayon. Pakisubukan ulit mamaya.',
+  fitNote: 'Isang libreng AI model ang sumulat nito base sa naka-save mong profile. Gabay lang ito, hindi garantiya.',
 }
 
 export const STRINGS = { en, tl }
