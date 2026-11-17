@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { downloadResumePdf } from '../lib/resume-pdf'
 import { useLang } from '../lib/lang-context'
 import type { ProfileFields } from '../lib/types'
 import { hasResumeContent, type Template } from '../lib/resume'
@@ -9,11 +10,25 @@ const TEMPLATES: Template[] = ['classic', 'modern', 'compact']
 const BUTTON =
   'h-11 cursor-pointer rounded-[10px] border border-line-strong bg-card px-5 text-sm font-semibold hover:bg-page disabled:cursor-not-allowed disabled:opacity-50'
 
-/** Pick a resume design and download it as a PDF through the browser's print window. */
+/** Pick a resume design, preview it, and download it as a PDF. */
 export default function ResumeTemplates({ data }: { data: ProfileFields }) {
   const { t } = useLang()
   const [template, setTemplate] = useState<Template>('classic')
+  const [busy, setBusy] = useState(false)
+  const [failed, setFailed] = useState(false)
   const ready = hasResumeContent(data)
+
+  async function download() {
+    setBusy(true)
+    setFailed(false)
+    try {
+      await downloadResumePdf(data, template, t)
+    } catch {
+      setFailed(true)
+    } finally {
+      setBusy(false)
+    }
+  }
 
   return (
     <section aria-labelledby="templates" className="flex flex-col gap-4 rounded-2xl border border-line bg-card p-4 sm:p-6">
@@ -50,11 +65,16 @@ export default function ResumeTemplates({ data }: { data: ProfileFields }) {
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <button type="button" onClick={() => window.print()} className={BUTTON}>
-              {t.tplDownload}
+            <button type="button" onClick={download} disabled={busy} className={BUTTON}>
+              {busy ? t.tplDownloading : t.tplDownload}
             </button>
             <p className="text-sm text-muted">{t.tplHint}</p>
           </div>
+          {failed && (
+            <p role="alert" className="rounded-[10px] bg-danger-tint px-4 py-3 text-sm text-danger">
+              {t.tplError}
+            </p>
+          )}
         </>
       ) : (
         <p className="rounded-[10px] bg-warn-tint px-4 py-3 text-sm text-warn">{t.tplEmpty}</p>

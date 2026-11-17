@@ -1,31 +1,11 @@
-import type { Template } from '../lib/resume'
+import { contact, filled, jobLine, range, schoolLine, type Template } from '../lib/resume'
 import type { Strings } from '../lib/strings'
-import type { Education, Experience, ProfileFields } from '../lib/types'
+import type { ProfileFields } from '../lib/types'
 
 interface Props {
   data: ProfileFields
   template: Template
   t: Strings
-}
-
-const filled = (v: string | null | undefined): v is string => (v ?? '').trim() !== ''
-
-function range(start: string | null, end: string | null, present: string): string {
-  if (filled(start) && filled(end)) return `${start} – ${end}`
-  if (filled(start)) return `${start} – ${present}`
-  return end ?? ''
-}
-
-function contact(d: ProfileFields): string[] {
-  return [d.email, d.phone, d.location, d.website].filter(filled)
-}
-
-function jobLine(job: Experience): string {
-  return [job.title, job.company].filter(filled).join(' · ')
-}
-
-function schoolLine(row: Education): string {
-  return [row.degree, row.school].filter(filled).join(' · ')
 }
 
 /**
@@ -72,7 +52,7 @@ export default function ResumeSheet({ data, template, t }: Props) {
       )
 
     return (
-      <div className="resume-print grid min-h-[1000px] grid-cols-[34%_1fr] bg-white text-[13px] leading-normal text-neutral-900 shadow-sm">
+      <div className="grid min-h-[1000px] grid-cols-[34%_1fr] bg-white text-[13px] leading-normal text-neutral-900 shadow-sm">
         <aside className="flex flex-col gap-5 bg-[#1e4fa8] p-6 text-white">
           <div className="flex flex-col gap-1.5">
             <h3 className="text-[0.8em] font-bold tracking-widest text-white/70 uppercase">Contact</h3>
@@ -128,7 +108,7 @@ export default function ResumeSheet({ data, template, t }: Props) {
 
   return (
     <div
-      className={`resume-print min-h-[1000px] bg-white text-neutral-900 shadow-sm ${
+      className={`min-h-[1000px] bg-white text-neutral-900 shadow-sm ${
         compact ? 'flex flex-col gap-3 p-5 text-[11.5px] leading-snug' : 'flex flex-col gap-5 p-8 font-serif text-[13px] leading-normal'
       }`}
     >
