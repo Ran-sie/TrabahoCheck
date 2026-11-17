@@ -7,6 +7,7 @@
 ![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white)
+[![CI](https://github.com/Ran-sie/TrabahoCheck/actions/workflows/ci.yml/badge.svg)](https://github.com/Ran-sie/TrabahoCheck/actions/workflows/ci.yml)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 **A job-scam detector for Filipino job seekers.** Paste a job link or the post text, or upload a screenshot, and get a scam-risk score with plain-language reasons, in English or Taglish.
