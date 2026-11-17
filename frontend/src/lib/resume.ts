@@ -1,6 +1,8 @@
 import type { Education, Experience, ProfileFields } from './types'
 
-export type Template = 'classic' | 'modern' | 'compact'
+export type Template = 'ats' | 'minimal' | 'sidebar'
+
+export const TEMPLATES: Template[] = ['ats', 'minimal', 'sidebar']
 
 export const filled = (v: string | null | undefined): v is string => (v ?? '').trim() !== ''
 
@@ -16,16 +18,26 @@ export function range(start: string | null, end: string | null, present: string)
   return end ?? ''
 }
 
+/** Email, phone, place and website, with "https://" dropped from the website. */
 export function contact(d: ProfileFields): string[] {
-  return [d.email, d.phone, d.location, d.website].filter(filled)
+  const site = filled(d.website) ? d.website.replace(/^https?:\/\//i, '').replace(/\/$/, '') : null
+  return [d.email, d.phone, d.location, site].filter(filled)
 }
 
-export function jobLine(job: Experience): string {
-  return [job.title, job.company].filter(filled).join(' · ')
+/** A job description split into bullet points, one per line, without typed bullet marks. */
+export function bullets(text: string | null): string[] {
+  return (text ?? '')
+    .split(/\r?\n/)
+    .map((line) => line.replace(/^\s*[-•*·]\s*/, '').trim())
+    .filter((line) => line !== '')
 }
 
-export function schoolLine(row: Education): string {
-  return [row.degree, row.school].filter(filled).join(' · ')
+export function jobs(d: ProfileFields): Experience[] {
+  return d.experience.filter((j) => filled(j.title))
+}
+
+export function schools(d: ProfileFields): Education[] {
+  return d.education.filter((e) => filled(e.school))
 }
 
 /** A safe file name such as "Ransie-F-Arboleda-Resume.pdf". */
