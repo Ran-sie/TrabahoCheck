@@ -222,3 +222,36 @@ export async function fetchResumeReview(): Promise<ResumeReviewResult> {
   if (data?.code === 'empty_profile') return { ok: false, code: 'empty_profile' }
   return { ok: false, code: 'unavailable' }
 }
+
+export interface ChatMessage {
+  role: 'user' | 'assistant'
+  content: string
+}
+
+export type ChatResult = { ok: true; reply: string } | { ok: false; code: 'unavailable' | 'network' | 'login' | 'limit' }
+
+/** Sends the chat so far (the last few messages) and gets the assistant's answer. */
+export async function sendChat(messages: ChatMessage[], reviewId: string | null, lang: string): Promise<ChatResult> {
+  let res: Response
+  try {
+    res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${getToken() ?? ''}`,
+      },
+      body: JSON.stringify({ messages: messages.slice(-12), review_id: reviewId, lang }),
+    })
+  } catch {
+    return { ok: false, code: 'network' }
+  }
+
+  if (res.ok) {
+    const data = await res.json().catch(() => null)
+    return typeof data?.reply === 'string' ? { ok: true, reply: data.reply } : { ok: false, code: 'unavailable' }
+  }
+  if (res.status === 401) return { ok: false, code: 'login' }
+  if (res.status === 429) return { ok: false, code: 'limit' }
+  return { ok: false, code: 'unavailable' }
+}

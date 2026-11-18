@@ -25,6 +25,7 @@
 - **Optional AI second opinion**: any OpenAI-compatible provider (Groq, OpenRouter) or fully local via Ollama, shown next to the rule result.
 - **Job fit**: logged-in users can compare their saved profile with a checked job post and get a match score, what they already have, what is missing and tips to improve.
 - **Resume review and templates**: AI feedback on your profile (score, strengths, fixes, a better headline and summary), plus three resume designs you can download as a PDF.
+- **AI job assistant**: a chat button on every page. Ask about scams, recruiters, interviews or your resume, in English or Taglish. It knows the job you just checked and your profile.
 - **Screenshot input**: in-browser OCR (Tesseract.js), so images never leave your machine.
 - **Accounts and resume tools**: sign up, keep a profile, upload a resume (PDF) and auto-fill your profile from it.
 - **Browser extension**: reads the job post from your own browser, so sites like Indeed, Upwork and LinkedIn are not blocked.
@@ -104,6 +105,7 @@ Restart the backend after changing `.env`.
 | POST | `/api/me/resume/autofill` | Fill profile from resume |
 | POST | `/api/me/resume/review` | AI feedback on the saved profile |
 | POST | `/api/job-fit` | Match the profile against a checked job (login required) |
+| POST | `/api/chat` | Chat with the AI job assistant (login required) |
 
 All public endpoints are rate limited.
 

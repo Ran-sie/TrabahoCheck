@@ -289,6 +289,21 @@ const en = {
     additional: 'Skills and more',
     present: 'Present',
   },
+  chatOpen: 'Ask the AI assistant',
+  chatClose: 'Close chat',
+  chatTitle: 'Job assistant',
+  chatIntro: 'Ask me about job scams, applying safely, interviews or your resume.',
+  chatJobNote: 'I can see the job you just checked.',
+  chatSuggest: ['How do I spot a fake job post?', 'Is it normal to pay for training?', 'How can I make my resume better?'],
+  chatSuggestJob: ['Is this job safe to apply to?', 'What should I ask the recruiter?', 'Do I fit this job?'],
+  chatPlaceholder: 'Type your question…',
+  chatSend: 'Send',
+  chatThinking: 'Thinking…',
+  chatLoginHint: 'Log in to chat with the AI assistant. It is free.',
+  chatClear: 'New chat',
+  chatErr: 'The assistant is not available right now. Please try again.',
+  chatErrLimit: 'Too many messages. Please wait a minute and try again.',
+  chatNote: 'AI can make mistakes. Never send money, passwords or OTPs to a recruiter.',
 }
 
 export type Strings = typeof en
@@ -577,6 +592,21 @@ const tl: Strings = {
     additional: 'Skills at iba pa',
     present: 'Kasalukuyan',
   },
+  chatOpen: 'Magtanong sa AI assistant',
+  chatClose: 'Isara ang chat',
+  chatTitle: 'Job assistant',
+  chatIntro: 'Magtanong tungkol sa job scams, ligtas na pag-apply, interview o resume mo.',
+  chatJobNote: 'Nakikita ko ang trabahong kaka-check mo lang.',
+  chatSuggest: ['Paano malalaman kung fake ang job post?', 'Normal ba magbayad para sa training?', 'Paano ko mapapaganda ang resume ko?'],
+  chatSuggestJob: ['Safe ba mag-apply dito?', 'Ano ang dapat kong itanong sa recruiter?', 'Bagay ba ako sa trabahong ito?'],
+  chatPlaceholder: 'I-type ang tanong mo…',
+  chatSend: 'Ipadala',
+  chatThinking: 'Nag-iisip…',
+  chatLoginHint: 'Mag-log in para maka-chat ang AI assistant. Libre ito.',
+  chatClear: 'Bagong chat',
+  chatErr: 'Hindi available ang assistant ngayon. Pakisubukan ulit.',
+  chatErrLimit: 'Sobrang dami ng mensahe. Maghintay ng isang minuto at subukan ulit.',
+  chatNote: 'Puwedeng magkamali ang AI. Huwag magpadala ng pera, password o OTP sa recruiter.',
 }
 
 export const STRINGS = { en, tl }

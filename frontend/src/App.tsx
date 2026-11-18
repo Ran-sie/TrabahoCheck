@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import AuthForm from './components/AuthForm'
+import ChatWidget from './components/ChatWidget'
 import CheckForm from './components/CheckForm'
 import Footer from './components/Footer'
 import Header, { type View } from './components/Header'
@@ -141,6 +142,7 @@ export default function App() {
       </main>
 
       <Footer onNavigate={navigate} />
+      <ChatWidget reviewId={result?.review_id ?? null} onNavigate={navigate} />
     </div>
   )
 }
